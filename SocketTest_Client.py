@@ -15,6 +15,8 @@ def sendingMsg():
 	s.send(bytes("Request","utf-8"))
 	data = s.recv(1024)
 	print(data)
+	data = s.recv(1024)
+	print(data)
 	print("sending finish")
 
 while True:
