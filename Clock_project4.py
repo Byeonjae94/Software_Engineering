@@ -1,6 +1,5 @@
 # Raspberry pi Project in Software Engineering project
 # Rpi.GPRO module and mysqldb use
-
 import RPi.GPIO as GPIO
 import time
 import MySQLdb
