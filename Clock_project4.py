@@ -127,7 +127,7 @@ while True:
 
     Answer_range_1= Angletest1(Past_Locate_1, Now_Locate_1)
     Answer_range_2= Angletest1(Past_Locate_1, Now_Locate_1)
-    time.sleep(30)
+    time.sleep(10)
 
     #Pin_number 1
     if Now_Locate_1 != Past_Locate_1:
