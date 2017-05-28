@@ -1,6 +1,9 @@
 import SocketToReceiverTest_Client as Sock
 import time
 import MySQLdb
+import subprocess
+
+subprocess.Popen(["python", "Clock_project4.py"])
 
 db = MySQLdb.connect('localhost','root','1234567890','TestDB')
 
