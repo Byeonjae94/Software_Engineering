@@ -16,7 +16,7 @@ print('Connected by',addr)
 
 while True:
     data=conn.recv(1024)
-    if not data:
+if not data:
         break
 
     db = MySQLdb.connect('localhost','root','0893','traccardb1')
@@ -44,11 +44,10 @@ while True:
             elif(distance<nearest[1]):
                 nearest = (place,distance,distance<scope)	
 
-        msg = str(j+1)+" "+nearest[0]+" "+str(nearest[1])+" "+str(nearest[2])
-        print(msg)
+        msg = str(usr_id)+nearest[0]+" "+str(nearest[1])+" "+str(nearest[2])+"end"
         conn.send(msg)
-        isReceived = conn.recv(1024)
-        print(isReceived)
+	isReceived = conn.recv(1024)
+	print(isReceived)
 
     db.close()
 
