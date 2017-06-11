@@ -40,52 +40,83 @@ def numbertest(Pin):
 
 # Location Number
 def test1(Location):
-    if Location == 'ITBT':
+    if Location == 'Home':
           return 1
-    elif Location == 'Playground':
+    elif Location == 'School':
           return 2
-    elif Location == 'Home':
+    elif Location == 'Company':
           return 3
     elif Location == 'Library':
           return 4
+    elif Location == 'Mart':
+          return 5
+    elif Location == 'Playground':
+          return 6
+    elif Location == 'Silver_Hall':
+          return 7
+    elif Location == 'Moving':
+          return 8
     else:
           return 0
 
 # Location Number
 def test2(Now_Locate):
     if Now_Locate == 1:
-          return 'ITBT'
-    elif Now_Locate == 2:
-          return 'Playground'
-    elif Now_Locate == 3:
           return 'Home'
-    elif Now_Locate== 4:
+    elif Now_Locate == 2:
+          return 'School'
+    elif Now_Locate == 3:
+          return 'Company'
+    elif Now_Locate == 4:
           return 'Library'
+    elif Now_Locate == 5:
+          return 'Mart'
+    elif Now_Locate == 6:
+          return 'Playground'
+    elif Now_Locate == 7:
+          return 'Silver_Hall'
+    elif Now_Locate == 8:
+          return 'Moving'
     else:
           return 0
-
 
 # Location compare and Angle
 def Angletest1(Past_Locate, Now_Locate):
     if Past_Locate < Now_Locate:
         Answer= Now_Locate - Past_Locate
         if Answer ==1:
-            return 128
+            return 64
         elif Answer ==2:
-            return 256
+            return 128
         elif Answer ==3:
+            return 192
+        elif Answer ==4:
+            return 256
+        elif Answer ==5:
+            return 320
+        elif Answer ==6:
             return 384
+        elif Answer ==7:
+            return 448
+
     elif Past_Locate > Now_Locate:
         Answer= Past_Locate - Now_Locate
         if Answer== 1:
-             return 384
+             return 448
         elif Answer==2:
-             return 256
+             return 384
         elif Answer ==3:
+             return 320
+        elif Answer ==4:
+             return 256
+        elif Answer ==5:
+             return 192
+        elif Answer ==6:
              return 128
+        elif Answer ==7:
+             return 64
     elif Past_Locate == Now_Locate:
          return 0
-
 
 # Main Function
 while True:
@@ -126,105 +157,105 @@ while True:
     Past_Locate_2= test1(Past_Location_2)
 
     Answer_range_1= Angletest1(Past_Locate_1, Now_Locate_1)
-    Answer_range_2= Angletest1(Past_Locate_1, Now_Locate_1)
+    Answer_range_2= Angletest1(Past_Locate_2, Now_Locate_2)
     time.sleep(10)
 
     #Pin_number 1
     if Now_Locate_1 != Past_Locate_1:
-      GPIO.setmode(GPIO.BCM)
-      pins = [12,16,20,21]
-      for p in pins:
-          GPIO.setup(p, GPIO.OUT)
-          GPIO.output(p, GPIO.LOW)
-      FULL_STEP = 4
-      HALF_STEP = 8
-      signal_full = [
-              [GPIO.HIGH, GPIO.LOW, GPIO.LOW, GPIO.LOW],
-              [GPIO.LOW, GPIO.HIGH, GPIO.LOW, GPIO.LOW],
-              [GPIO.LOW, GPIO.LOW, GPIO.HIGH, GPIO.LOW],
-              [GPIO.LOW, GPIO.LOW, GPIO.LOW, GPIO.HIGH],
-              ]
-      signal_half = [
-              [GPIO.HIGH, GPIO.LOW, GPIO.LOW, GPIO.HIGH],
-              [GPIO.HIGH, GPIO.LOW, GPIO.LOW, GPIO.LOW],
-              [GPIO.HIGH, GPIO.HIGH, GPIO.LOW, GPIO.LOW],
-              [GPIO.LOW, GPIO.HIGH, GPIO.LOW, GPIO.LOW],
-              [GPIO.LOW, GPIO.HIGH, GPIO.HIGH, GPIO.LOW],
-              [GPIO.LOW, GPIO.LOW, GPIO.HIGH, GPIO.LOW],
-              [GPIO.LOW, GPIO.LOW, GPIO.HIGH, GPIO.HIGH],
-              [GPIO.LOW, GPIO.LOW, GPIO.LOW, GPIO.HIGH],
-              ]
-      steps = FULL_STEP
-      signal = signal_full
-      clockwise = True
-      try:
-          for i in range(0,Answer_range_1):
-              if clockwise :
-                  for step in range(steps):
-                    sendSignal()
-                    time.sleep(0.01)
-              else :
-                  for step in reversed(range(steps)):
-                    sendSignal()
-                    time.sleep(0.01)
-      except KeyboardInterrupt:
-          print("\nInterrupted!")
-      finally:
-          GPIO.cleanup()
-          Real_Past_Locate_1= test2(Now_Locate_1)
-          db=MySQLdb.connect('localhost','root','1234567890','TestDB')
-          cursor =db.cursor()
-          cursor.execute('UPDATE TestTable SET Past_Location="%s" WHERE Pin="%s"' % (Real_Past_Locate_1,Pin_1))
-          db.commit()
-          db.close()
-
+        GPIO.setmode(GPIO.BCM)
+        pins = [12,16,20,21]
+        for p in pins:
+            GPIO.setup(p, GPIO.OUT)
+            GPIO.output(p, GPIO.LOW)
+        FULL_STEP = 4
+        HALF_STEP = 8
+        signal_full = [
+                [GPIO.HIGH, GPIO.LOW, GPIO.LOW, GPIO.LOW],
+                [GPIO.LOW, GPIO.HIGH, GPIO.LOW, GPIO.LOW],
+                [GPIO.LOW, GPIO.LOW, GPIO.HIGH, GPIO.LOW],
+                [GPIO.LOW, GPIO.LOW, GPIO.LOW, GPIO.HIGH],
+                ]
+        signal_half = [
+                [GPIO.HIGH, GPIO.LOW, GPIO.LOW, GPIO.HIGH],
+                [GPIO.HIGH, GPIO.LOW, GPIO.LOW, GPIO.LOW],
+                [GPIO.HIGH, GPIO.HIGH, GPIO.LOW, GPIO.LOW],
+                [GPIO.LOW, GPIO.HIGH, GPIO.LOW, GPIO.LOW],
+                [GPIO.LOW, GPIO.HIGH, GPIO.HIGH, GPIO.LOW],
+                [GPIO.LOW, GPIO.LOW, GPIO.HIGH, GPIO.LOW],
+                [GPIO.LOW, GPIO.LOW, GPIO.HIGH, GPIO.HIGH],
+                [GPIO.LOW, GPIO.LOW, GPIO.LOW, GPIO.HIGH],
+                ]
+        steps = FULL_STEP
+        signal = signal_full
+        clockwise = True
+        try:
+            for i in range(0,Answer_range_1):
+                if clockwise :
+                    for step in range(steps):
+                      sendSignal()
+                      time.sleep(0.01)
+                else :
+                    for step in reversed(range(steps)):
+                      sendSignal()
+                      time.sleep(0.01)
+        except KeyboardInterrupt:
+            print("\nInterrupted!")
+        finally:
+            GPIO.cleanup()
+            Real_Past_Locate_1= test2(Now_Locate_1)
+            db=MySQLdb.connect('localhost','root','1234567890','TestDB')
+            cursor =db.cursor()
+            cursor.execute('UPDATE TestTable SET Past_Location="%s" WHERE Pin="%s"' % (Real_Past_Locate_1,Pin_1))
+            db.commit()
+            db.close()
+    
     # Pin_number 2
     if Now_Locate_2 != Past_Locate_2:
-          GPIO.setmode(GPIO.BCM)
-          pins = [6,13,19,26]
-
-          for p in pins:
-              GPIO.setup(p, GPIO.OUT)
-              GPIO.output(p, GPIO.LOW)
-          FULL_STEP = 4
-          HALF_STEP = 8
-          signal_full = [
-                  [GPIO.HIGH, GPIO.LOW, GPIO.LOW, GPIO.LOW],
-                  [GPIO.LOW, GPIO.HIGH, GPIO.LOW, GPIO.LOW],
-                  [GPIO.LOW, GPIO.LOW, GPIO.HIGH, GPIO.LOW],
-                  [GPIO.LOW, GPIO.LOW, GPIO.LOW, GPIO.HIGH],
-                  ]
-          signal_half = [
-                  [GPIO.HIGH, GPIO.LOW, GPIO.LOW, GPIO.HIGH],
-                  [GPIO.HIGH, GPIO.LOW, GPIO.LOW, GPIO.LOW],
-                  [GPIO.HIGH, GPIO.HIGH, GPIO.LOW, GPIO.LOW],
-                  [GPIO.LOW, GPIO.HIGH, GPIO.LOW, GPIO.LOW],
-                  [GPIO.LOW, GPIO.HIGH, GPIO.HIGH, GPIO.LOW],
-                  [GPIO.LOW, GPIO.LOW, GPIO.HIGH, GPIO.LOW],
-                  [GPIO.LOW, GPIO.LOW, GPIO.HIGH, GPIO.HIGH],
-                  [GPIO.LOW, GPIO.LOW, GPIO.LOW, GPIO.HIGH],
-                  ]
-          steps = FULL_STEP
-          signal = signal_full
-          clockwise = True
-          try:
-              for i in range(Answer_range_2):
-                  if clockwise :
-                      for step in range(steps):
-                          sendSignal()
-                          time.sleep(0.01)
-                  else :
-                      for step in reversed(range(steps)):
-                          sendSignal()
-                          time.sleep(0.01)
-          except KeyboardInterrupt:
-              print("\nInterrupted!")
-          finally:
-              GPIO.cleanup()
-              Real_Past_Locate_2= test2(Now_Locate_2)
-              db=MySQLdb.connect('localhost','root','1234567890','TestDB')
-              cursor =db.cursor()
-              cursor.execute('UPDATE TestTable SET Past_Location="%s" WHERE Pin="%s" '% (Real_Past_Locate_2,Pin_2))
-              db.commit()
-              db.close()
+        GPIO.setmode(GPIO.BCM)
+        pins = [6,13,19,26]
+    
+        for p in pins:
+            GPIO.setup(p, GPIO.OUT)
+            GPIO.output(p, GPIO.LOW)
+        FULL_STEP = 4
+        HALF_STEP = 8
+        signal_full = [
+                [GPIO.HIGH, GPIO.LOW, GPIO.LOW, GPIO.LOW],
+                [GPIO.LOW, GPIO.HIGH, GPIO.LOW, GPIO.LOW],
+                [GPIO.LOW, GPIO.LOW, GPIO.HIGH, GPIO.LOW],
+                [GPIO.LOW, GPIO.LOW, GPIO.LOW, GPIO.HIGH],
+                ]
+        signal_half = [
+                [GPIO.HIGH, GPIO.LOW, GPIO.LOW, GPIO.HIGH],
+                [GPIO.HIGH, GPIO.LOW, GPIO.LOW, GPIO.LOW],
+                [GPIO.HIGH, GPIO.HIGH, GPIO.LOW, GPIO.LOW],
+                [GPIO.LOW, GPIO.HIGH, GPIO.LOW, GPIO.LOW],
+                [GPIO.LOW, GPIO.HIGH, GPIO.HIGH, GPIO.LOW],
+                [GPIO.LOW, GPIO.LOW, GPIO.HIGH, GPIO.LOW],
+                [GPIO.LOW, GPIO.LOW, GPIO.HIGH, GPIO.HIGH],
+                [GPIO.LOW, GPIO.LOW, GPIO.LOW, GPIO.HIGH],
+                ]
+        steps = FULL_STEP
+        signal = signal_full
+        clockwise = True
+        try:
+            for i in range(Answer_range_2):
+                if clockwise :
+                    for step in range(steps):
+                        sendSignal()
+                        time.sleep(0.01)
+                else :
+                    for step in reversed(range(steps)):
+                        sendSignal()
+                        time.sleep(0.01)
+        except KeyboardInterrupt:
+            print("\nInterrupted!")
+        finally:
+            GPIO.cleanup()
+            Real_Past_Locate_2= test2(Now_Locate_2)
+            db=MySQLdb.connect('localhost','root','1234567890','TestDB')
+            cursor =db.cursor()
+            cursor.execute('UPDATE TestTable SET Past_Location="%s" WHERE Pin="%s" '% (Real_Past_Locate_2,Pin_2))
+            db.commit()
+            db.close()
 

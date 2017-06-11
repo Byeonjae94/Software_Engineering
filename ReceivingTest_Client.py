@@ -12,10 +12,11 @@ sql = ""
 
 try:
     while True:
+        Sock.connection()
         time.sleep(5)
         rowCount = str(Sock.sendingMsg()).split("'")
-        print("sended")
         rowCount = int(rowCount[1])
+        print(rowCount)
 
         for i in range(0,rowCount):
             receiving = str(Sock.sendingMsg())
@@ -23,7 +24,10 @@ try:
             print(receiving)
 
             li = receiving.split(" ")
-            sql = "UPDATE TestTable SET Location = '%s' WHERE Pin = '%s';" % (li[1],li[0])
+            if li[3]=="False":
+                sql = "UPDATE TestTable SET Location = 'Moving' WHERE Pin = '%s';" % (li[0])
+            else:
+                sql = "UPDATE TestTable SET Location = '%s' WHERE Pin = '%s';" % (li[1],li[0]-1)
             print(sql)
             cursor.execute(sql)
 
