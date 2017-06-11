@@ -1,0 +1,245 @@
+\documentclass[10pt,a4paper,twocolumn]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\begin{document}
+
+\title{Whereabouts Clock}
+\author{Byeonggon Lee,Jaehyun Byeon,Sowon Park,Juhyeok Bae}
+\maketitle
+
+
+\begin{table}[]
+\centering
+\caption{Role assignment}
+\begin{tabular}{ccc}
+	\multicolumn{1}{c|}{Roles} & \multicolumn{1}{c|}{Names} & Task description and etc. \\ \hline
+	\multicolumn{1}{c|}{User} & \multicolumn{1}{c|}{Sowon Park} &  supposing herself as an 
+	end-user of this software, listed both predictable inconveniences and desired properties.\\ \hline
+	\multicolumn{1}{c|}{Customer} & \multicolumn{1}{c|}{Jaehyun Byeon} & Make concrete which functions are necessary. When 
+	user purchase this software, customer analysis the benefits of this software.  \\ \hline
+	\multicolumn{1}{c|}{Software Developer} & \multicolumn{1}{c|}{Juhyeok Bae} & Plan how to implement this %software, 
+	consider the algorithm and system within software \\ \hline
+	\multicolumn{1}{c|}{Developer Manager} & \multicolumn{1}{c|}{Byeonggon Lee} & design a general idea of this %software,	
+	managing our team. \\ \hline
+\end{tabular}
+\end{table} 
+
+
+\textbf{abstract}- Overall, our real time location clock has two purposes. First, by informing families at home of each member’s location, they can be relieved. Second, by automatically showing information at clock, people can be aware of each other's location fast and conveniently than using a phone call or messenger. We provide this service with smart phone application and clock equipped with Raspberry pi. Application server compares initial user's setup data and their real time location using Own tracks application. If the data corresponds to the setup data stored at Database, Application Server sends request to change the hands of clock which indicate family member’s location. Our clock provides each locations of member and reduces concerns about safety.
+
+
+\section{Introduction}
+	Modern society is composed of various social groups. From birth, we belong to a family and get to be part of a peer group as we grow up. The relationship between the group members has been more important since we usually have a strong sense of belonging to it. Among many social groups, a family would be the most crucial social group because we naturally belong to it from birth. 
+     Members of a family share a strong bond which is connected emotionally. When children are young, there are usually a lot of opportunities to spend time with their parents. However, as children grow up to be adults and can take care of themselves, it becomes difficult to have enough face-to-face conversations for a family. Both sides often try to keep their sense of family’s closeness by phone calls or sending messages. Therefore, the most common question in a family would be asking where the other person is. This is because the most important thing for a family is consistently checking the safety of each other. 
+     With this mind, our team has come up with an idea to provide a service that can let the family members know the location of each other easily. There are already many applications in the field that someone can track the exact location of family members. We decided to use that service as our basic idea and come up with something that can present the information in visual forms and sounds. The technology would be applied to the clock because it is easy for us to see in their everyday lives. Whereabouts clock will show the location of each family member instead of only showing the physical time as normal clock does. 
+     Our location clock service consists of these things as stated below. The hands of the clock will represent the family members. The clock will use a hardware called the raspberry pi to get information from the application. The application will retrieve information data using the ‘Own tracks’ application. The information of the users will be stored in the database through the server where their location data would be checked in real-time. The specific fundamentals of this clock’s IOT function would be presented more clearly in the specification sector. 
+     We would also like to further implement this technology to not only just family members but also to others in need. This clock service could be used in places such as hospitals, or facilities that should take care of young or old people. As the number of caretakers of such places are limited and they still need a lot of help, we would like to provide a service that would aid them with informing the location of the people through visual and sound methods using a form of a clock.
+     
+
+\section{Requirement}
+	\subsection{Requirement for Clock}
+		%\begin{enumerate}
+		\subsubsection{0.2.1.1. Clock kit} 
+		- An old beat up clock or old clock shell \\
+		- 1 raspberry pi Micro-Computer \\
+		- 3 Sail winch servos (special servos that can turn 360 degrees)\\
+		- A middle device that connects between raspberry pi and 3 Sail winch servo \\
+		- 3 Brass Tubes (one is 1/4 inch, another is 9/32 inch, the other is the          
+		  smallest one) and 6 gear \\
+		- For additional function, 1 display panel and 1 speaker \\
+		
+		\subsubsection{0.2.1.2. Network} 
+		- To connect raspberry pi with Wi-Fi, we should connect Wi-Fi dongle with 
+		  raspberry pi \\
+		  
+		\subsubsection{0.2.1.3. Receiving data} 
+		- Connecting the Wi-Fi to receive the GPS data from the Application with clock \\
+        - Connecting the Wi-Fi to receive the short message that user send\\
+
+		\subsubsection{0.2.1.4. Handling input data} 
+		- To judge where the clock hands should move to \\
+		
+		\subsubsection{0.2.1.5. Moving clock hands} 
+		- Move clock hands in real time \\
+		
+		\subsubsection{0.2.1.6. Floating the message} 
+		- Floating the short message that family sends shortly \\
+		
+		\subsubsection{0.2.1.7. Alarm} 
+		- If the family location changes, clock alarms the user  \\
+		
+		\subsubsection{0.2.1.8. Informing the real time} 
+		- Display panel on the bottom showing the real time \\
+        - Ex) 2017.04.01 10 pm \\
+
+	\subsection{Requirement for Application}
+		\subsubsection{0.2.2.1. Install application}
+		
+		\subsubsection{0.2.2.2. Sign in and login}
+
+		\subsubsection{0.2.2.3. Permitting to give users GPS data.}
+
+		\subsubsection{0.2.2.4. Making the family group}
+		- Set the family number \\
+		- The main user invites other family member \\
+		- Connecting with the clock \\
+
+		\subsubsection{0.2.2.5. Setting the default location information ex) school – GPS data}
+
+		\subsubsection{0.2.2.6. Comparing the real time GPS data with default location data}
+		- Handling between the real time GPS data and default location information that setting \\
+		
+		\subsubsection{0.2.2.7. Transmit data that compare between the real time GPS data and default location data to clock}
+		- If the status of one application is on, the application server sends a GPS data to clock \\
+		
+		\subsubsection{0.2.2.8. Sending user message and setting states}
+		- User can send a short message to the clock screen. \\
+		- When user click the button which represents location state like (Moving, Studying, Working, and Taking a rest or so 
+		  on), application changes the clock screen display. \\
+ 
+     \subsection{Requirement for User}
+     	\subsubsection{0.2.3.1. Install Whereabouts clock}
+     	- User is required to get the clock. \\
+		- User puts a battery in the clock. \\
+		
+		\subsubsection{0.2.3.2. Set up family data with hands of clock.}
+     	- User makes each hand of clock indicate family members. \\
+		- User puts place to confirm family’s location instead of time in clock.\\
+		
+		\subsubsection{0.2.3.3. Join and sign in smartphone application}
+     	- Family members are required to make an account with his/her email address or phone number and 		  password in the application.\\
+		- User can sign in with the setting of email address or phone number and password that he/she 			  registered at the first time.\\
+		
+ 		\subsubsection{0.2.3.4. Make a group in the smartphone application}
+     	- One of family member should invite the others to group setting.\\
+     	
+     	\subsubsection{0.2.3.5. Connect the setting between members and hands of clock}
+     	- Each member set the application to make watch point themselves. \\
+     	
+		\subsubsection{0.2.3.6. Register user’s clock}
+     	- To connect clock with the application, user should register clock and network path. 			
+     	Application considers where and how to send the input data.\\
+     	
+     	\subsubsection{0.2.3.7. Create user settings in Database}
+     	- User should register the setup location which they want to represent in Database. If they 
+     	want to set their home, they can store home address in the application and the server store as 
+     	they received data in database.\\
+ 		- User also can resister other locations they want to confirm. For example, there could be 	
+ 		parent’s company locations, children’ school locations, children’s private educational 
+ 		institutes and so on.\\
+ 		
+		\subsubsection{0.2.3.8. Register basic application settings}
+     	- User should set the checking time(for 30 seconds of one minute ) when the application 		          retrieves user’s real time location.\\
+     	- User should allow the application to take user’s GPS data.\\
+     	
+     	\subsubsection{0.2.3.9. Click the state button }
+     	- When user want to represent their current conditions to other family’s members, he or she can 		  press the button which represents their present states. \\
+     	
+     	\subsubsection{0.2.3.10. Listen to alarm}
+     	- Even if someone is concentrating on his/her working, they can also hear clock alarming.\\
+		- If user’s location is changed, the hand of clock also moved to point the location on the  
+		  clock and then clock alarms. \\
+	\subsection{Requirement for Developer}
+		\subsubsection{0.2.4.1. Raspberry Pi}
+		- Raspberry Pi is one of important components of Whereabouts Clock. It is core part of the clock and gets the comparing data between initial setup and real time locations. It helps application to send data to clock. And then manipulates stepping motor which can handle hands of clock.\\
+- Developer should set hands of clock about hands' turning angle and its velocity.\\
+
+		\subsubsection{0.2.4.2.Noobs}
+		- Noobs help user to install OS they want. According to developer’s taste, developer could choose one of OS like Raspbian, Openexel, window 10 IoT and so on. We use Raspbian to develop our clock.\\
+		
+		\subsubsection{0.2.4.3. Connecting Wi-Fi with Raspberry Pi}
+		- Wi-Fi chip equipped with Raspberry Pi 3 can make Raspberry Pi access wireless router. Through the wireless router, Raspberry Pi connects user’s application. Developer makes Wi-Fi chip automatically link wireless router through Noobs.\\
+		
+		\subsubsection{0.2.4.4. Connecting Stepping motor 5V in Raspberry Pi}
+		- To operate hands of clock correctly, Raspberry Pi uses Stepping motor which spins axis of clock. By turning the axis, each hand of clock indicates location. We use three Stepping motor connecting axis with gears and each axis works respectively.\\
+		
+		\subsubsection{0.2.4.5. Middle equipment, Arduino}
+		- Between Raspberry Pi 3 and three motors, developer installs Arduino which gets input data from Raspberry Pi and operates each motors.\\
+		
+		\subsubsection{0.2.4.6. Support user to choose one of motors}
+		- Show Stepping motor’s number to see user deciding to which motor is used in application.\\
+
+		\subsubsection{0.2.4.7. SD Card in Raspberry Pi }
+		- It is a storage to install Raspbian in SD Card which stores Operating System.\\
+		
+		\subsubsection{0.2.4.8. GPS Tracking API}
+		- To get real time location and GPS, developer should use tracker which get real time location with GPS tracking open source.\\
+		
+		\subsubsection{0.2.4.9. Use server}
+		- To manage user’s data and store initial setup which user wants, developer makes an EC2 account to use server in AWS.\\
+- To compare between user’s real location and initial setup, developer uses server.\\
+
+		\subsubsection{0.2.4.10. Connect between Application, Server and Database.}
+		- To interact with each level, developer should make communication environment.\\
+
+		\subsubsection{0.2.4.11. MYSQL}
+		- To help server find stored setup data, developer should make a MYSQL in android studio. Developer could also manage all the data stored in the database.\\
+		
+		\subsubsection{0.2.4.12. Android studio}
+		- Developer uses android studio for writing a code in android application.\\
+
+
+\section{DEVELOPMENT ENVIRONMENT}
+	\subsection{Which platform and why?}
+		\subsubsection{0.3.1.1. Windows for android application developing}
+		- We will use Windows operating system. Windows OS is the most popular operating system being used worldwide and three of us also use Windows. As a general rule, Linux or Window OS is a better fit for the development environment. Also, we decided to use the Windows, which is the most familiar OS since we don't have much to do with Android.\\
+		
+		\subsubsection{0.3.1.2. Linux for server developing}
+		- Three of us will use Ubuntu, a type of Linux, to develop a server. Globally, Linux operating system is the most widely used server. Also, it was appropriate because our open source, Traccar, is also offering a Linux version.\\
+		
+		\subsubsection{0.3.1.3. Raspbian for Raspberry Pi developing}
+		- We will use Raspbian OS because Raspbian OS is convenient and comfortable in Raspberry Pi. \\
+		
+	\subsection{Which programming language and why?}	
+		\subsubsection{0.3.2.1. Java for android application developing}
+		- Java is a general-purpose computer programming language that is concurrent, class-based, object- oriented, and specifically designed to have as few implementation dependencies as possible. As of now, Java is one of the most popular programming languages in use, particularly for client-server web applications, with a reported 9 million developers. Also, because Java can minimize the problem of fragmentation by hardware platform due to existence of JVM, Android chose Java. So now all Android development is done through Java.\\
+		
+		\subsubsection{0.3.2.2. Provide a cost estimation for your built}	
+		- Python is simple and productive Programming language. This language is made by Netherlands developer. Python language’s grammar is simple and looks like human’s thinking. Therefore, it has advantages for beginners to learn easily. Python helps people to develop Web Service, Data Analysis, Machine Learning. Python is also used for Raspberry Pi. It is convenient and comfortable for Raspberry Pi beginners. \\
+	
+		\subsubsection{0.3.2.3. MYSQL for using database}
+		- - MYSQL is the world’s most popular database management system. It uses SQL Language and RDBMS. It is very fast and flexible. And it is easy for beginners to use Database. We chose MYSQL because it supports our Traccar Application\\
+		
+		\subsubsection{0.3.2.4. Java and Python for managing Server}
+		- It is composed of Java and Python in Traccar Server side. \\
+		
+	\subsection{Provide clear information of your development environment}	
+		\subsubsection{0.3.3.1. Cost for Server}
+		- Amazon EC2 is free for a year. \\
+		
+		\subsubsection{0.3.3.2. Cost for hardware}
+		\begin{enumerate}
+			\item Raspberry Pi 3B \\
+			- We bought a Raspberry Pi 3 because Raspberry Pi 3 supports Wifi and Bluetooth functions. And it supports the 4 USB ports, Ethernet ports and HDMI port that is needed for using the monitor. 
+			\item Stepping Motors \\
+			- Stepping Motor is the Connector which is used for Whereabouts clock. We use a Raspberry Pi 3B for turning the Stepping Motor. \\
+			\item Raspberry Pi case \\
+			- Raspberry Pi case protects the Raspberry Pi from the Outer attack and electromagnetic waves. \\
+			\item Bread board \\
+			- Bread board is installed for connecting the Raspberry Pi and Stepping Motor.\\
+			\item SD card \\
+			- Raspbian OS is installed in SD card. We can use SD card in a Raspberry Pi 3B.\\
+			\item Monitor \\
+			- Monitor is used for coding the program and checking the result. Our team borrow the Monitor from acquaintance.\\
+			\item HDMI cable \\ 
+			- Raspberry Pi 3 supports HDMI for Monitor. So we should use a HDMI cable for Monitor. \\
+			\item HDMI to DVI converter \\
+			- Our team’s Monitor supports DVI. So we should connect between HDMI and DVI. We bought a HDMI to DVI converter. \\
+			\item Keyboard \\
+			- We use a keyboard because Raspberry pi support a USB port for keyboard. Raspberry pi 3B doesn’t support a notebook for monitor. \\
+			\item Mouse \\
+			- We use a mouse because Raspberry pi support a USB port for mouse. \\
+			\item Clock \\
+			- We use a clock that is used for ten years from one of our team member’s home. We will change the clock to Whereabouts clocks that uses Raspberry Pi 3B. \\
+			\item 2 Brass Tubes and 4 gear \\
+			- We buy 2 Brass Tubes and 4 gear because we need two axis and power that got from the stepping motor.\\
+		\end{enumerate}
+	\subsection{Using any commercial cloud platform}
+	\subsection{Which member is responsible for what?}
+    
+
+\end{document}

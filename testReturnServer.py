@@ -44,7 +44,7 @@ while True:
             elif(distance<nearest[1]):
                 nearest = (place,distance,distance<scope)	
 
-        msg = str(usr_id)+" "+nearest[0]+" "+str(nearest[1])+" "+str(nearest[2])
+        msg = str(j+1)+" "+nearest[0]+" "+str(nearest[1])+" "+str(nearest[2])
         print(msg)
         conn.send(msg)
         isReceived = conn.recv(1024)
