@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.traccar.client;
+package org.traccar.whereabouts;
 
 import android.content.Context;
 import android.location.Location;
@@ -34,7 +34,7 @@ public class SimplePositionProvider extends PositionProvider implements Location
 
     public void startUpdates() {
         try {
-            locationManager.requestLocationUpdates(type, period, 0, this);
+            locationManager.requestLocationUpdates(type, requestInterval, 0, this);
         } catch (IllegalArgumentException e) {
             Log.w(TAG, e);
         }

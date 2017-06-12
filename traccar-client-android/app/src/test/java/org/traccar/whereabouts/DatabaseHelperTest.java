@@ -1,5 +1,5 @@
 
-package org.traccar.client;
+package org.traccar.whereabouts;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;

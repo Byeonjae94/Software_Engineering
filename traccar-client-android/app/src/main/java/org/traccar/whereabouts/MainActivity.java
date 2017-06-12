@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.traccar.client;
+package org.traccar.whereabouts;
 
 import android.Manifest;
 import android.app.AlarmManager;
@@ -50,8 +50,11 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
     public static final String KEY_PORT = "port";
     public static final String KEY_SECURE = "secure";
     public static final String KEY_INTERVAL = "interval";
+    public static final String KEY_DISTANCE = "distance";
+    public static final String KEY_ANGLE = "angle";
     public static final String KEY_PROVIDER = "provider";
     public static final String KEY_STATUS = "status";
+    public static final String KEY_TEST = "test";
 
     private static final int PERMISSIONS_REQUEST_LOCATION = 2;
 
@@ -117,11 +120,32 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
             }
         });
 
+        Preference.OnPreferenceChangeListener numberValidationListener = new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (newValue != null) {
+                    try {
+                        int value = Integer.parseInt((String) newValue);
+                        return value >= 0;
+                    } catch (NumberFormatException e) {
+                        Log.w(TAG, e);
+                    }
+                }
+                return false;
+            }
+        };
+        findPreference(KEY_DISTANCE).setOnPreferenceChangeListener(numberValidationListener);
+        findPreference(KEY_ANGLE).setOnPreferenceChangeListener(numberValidationListener);
+
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmIntent = PendingIntent.getBroadcast(this, 0, new Intent(this, AutostartReceiver.class), 0);
 
         if (sharedPreferences.getBoolean(KEY_STATUS, false)) {
             startTrackingService(true, false);
+        }
+
+        if (sharedPreferences.getBoolean(KEY_TEST, false)) {
+
         }
     }
 
@@ -179,6 +203,8 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
         findPreference(KEY_PORT).setEnabled(enabled);
         findPreference(KEY_SECURE).setEnabled(enabled);
         findPreference(KEY_INTERVAL).setEnabled(enabled);
+        findPreference(KEY_DISTANCE).setEnabled(enabled);
+        findPreference(KEY_ANGLE).setEnabled(enabled);
         findPreference(KEY_PROVIDER).setEnabled(enabled);
     }
 
