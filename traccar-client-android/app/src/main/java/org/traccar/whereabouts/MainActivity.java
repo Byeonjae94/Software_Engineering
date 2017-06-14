@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -35,10 +36,13 @@ import android.preference.TwoStatePreference;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+
+import static org.traccar.whereabouts.R.xml.preferences;
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
@@ -56,6 +60,8 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
     public static final String KEY_STATUS = "status";
     public static final String KEY_TEST = "test";
 
+    public static boolean istesting = false;
+
     private static final int PERMISSIONS_REQUEST_LOCATION = 2;
 
     private SharedPreferences sharedPreferences;
@@ -72,7 +78,7 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
         }
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        addPreferencesFromResource(R.xml.preferences);
+        addPreferencesFromResource(preferences);
         initPreferences();
 
         findPreference(KEY_DEVICE).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -140,14 +146,34 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmIntent = PendingIntent.getBroadcast(this, 0, new Intent(this, AutostartReceiver.class), 0);
 
+        //For Testing
+        if (sharedPreferences.getBoolean(KEY_TEST, false)) {
+            istesting = true;
+            //여기도 삽질; startTrackingService(true, false);
+            /* Testing 구현 위해 삽질
+            Location location = new Location("gps");
+            location.setSpeed(515432);
+            Position position = new Position("515432", location, 100.0);
+
+            String request = ProtocolFormatter.formatRequest("52.78.114.210", 5055, false, position);
+            RequestManager.sendRequestAsync(request, new RequestManager.RequestHandler() {
+                @Override
+                public void onComplete(boolean success) {
+                    if (success) {
+                        StatusActivity.addMessage("Test Succeed");
+                    } else {
+                        StatusActivity.addMessage("Test Failed");
+                    }
+                }
+            });
+            */
+        }
         if (sharedPreferences.getBoolean(KEY_STATUS, false)) {
             startTrackingService(true, false);
         }
 
-        if (sharedPreferences.getBoolean(KEY_TEST, false)) {
-
-        }
     }
+
 
     private void removeLauncherIcon() {
         String className = MainActivity.class.getCanonicalName().replace(".MainActivity", ".Launcher");
@@ -210,6 +236,15 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        //Testing 위해 추가
+        if(key.equals(KEY_TEST)) {
+            if (sharedPreferences.getBoolean(KEY_STATUS, false)) {
+                istesting = true;
+            } else {
+                istesting = false;
+            }
+        }
+        
         if (key.equals(KEY_STATUS)) {
             if (sharedPreferences.getBoolean(KEY_STATUS, false)) {
                 startTrackingService(true, false);
@@ -219,6 +254,7 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
         } else if (key.equals(KEY_DEVICE)) {
             findPreference(KEY_DEVICE).setSummary(sharedPreferences.getString(KEY_DEVICE, null));
         }
+
     }
 
     @Override
@@ -245,7 +281,7 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
     }
 
     private void initPreferences() {
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        PreferenceManager.setDefaultValues(this, preferences, false);
 
         if (!sharedPreferences.contains(KEY_DEVICE)) {
             String id = String.valueOf(new Random().nextInt(900000) + 100000);
