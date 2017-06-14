@@ -24,7 +24,7 @@ try:
             cursor.execute(sql)
             continue
 
-        sql = "UPDATE TestSatus SET Value = 0 WHERE Pin=1;"
+        sql = "UPDATE TestStatus SET Value = 0 WHERE Pin=1;"
         cursor.execute(sql)
 
         for i in range(0,rowCount):
