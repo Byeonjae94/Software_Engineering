@@ -34,7 +34,9 @@ while True:
     if istesting == 999:
         conn.send(str(istesting))
         continue
-    
+
+    cursorPositions.execute("select * from (select deviceid,MAX(devicetime) as devicetime from positions group by deviceid) as A join (select deviceid,devicetime,latitude,longitude,speed from positions) as B on A.deviceid = B.deviceid and A.devicetime = B.devicetime;")
+        
     positionRows = cursorPositions.rowcount
     conn.send(str(positionRows))
 

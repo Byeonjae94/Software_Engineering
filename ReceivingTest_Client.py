@@ -18,6 +18,15 @@ try:
         rowCount = int(rowCount[1])
         print(rowCount)
 
+        if rowCount == "999":
+            sql = "UPDATE TestStatus SET Value = 1 WHERE Pin=1;"
+            print(sql)
+            cursor.execute(sql)
+            continue
+
+        sql = "UPDATE TestSatus SET Value = 0 WHERE Pin=1;"
+        cursor.execute(sql)
+
         for i in range(0,rowCount):
             receiving = str(Sock.sendingMsg())
             receiving = receiving[2:-1]
