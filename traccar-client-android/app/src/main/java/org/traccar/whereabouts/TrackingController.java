@@ -165,6 +165,9 @@ public class TrackingController implements PositionProvider.PositionListener, Ne
                 if (success) {
                     if (result != null) {
                         if (result.getDeviceId().equals(preferences.getString(MainActivity.KEY_DEVICE, null))) {
+                            //다음 한 줄, Testing 위해
+                            if(MainActivity.istesting)  result.setSpeed(999);
+
                             send(result);
                         } else {
                             delete(result);
