@@ -23,7 +23,17 @@ while True:
     cursorPositions = db.cursor()
     cursorLocations = db.cursor()    
 
-    cursorPositions.execute("select * from (select deviceid,MAX(devicetime) as devicetime from positions group by deviceid) as A join (select deviceid,devicetime,latitude,longitude from positions) as B on A.deviceid = B.deviceid and A.devicetime = B.devicetime;")
+    cursorPositions.execute("select * from (select deviceid,MAX(devicetime) as devicetime from positions group by deviceid) as A join (select deviceid,devicetime,latitude,longitude,speed from positions) as B on A.deviceid = B.deviceid and A.devicetime = B.devicetime;")
+
+    for k in xrange(positionRows):
+        lastdata = cursorPositions.fetchone()
+        istesting = lastdata[6]
+        if istesting == 999:
+            break
+
+    if istesting == 999:
+        conn.send(str(istesting))
+        continue
     
     positionRows = cursorPositions.rowcount
     conn.send(str(positionRows))
