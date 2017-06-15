@@ -15,7 +15,7 @@ try:
     # Tuple
     Pin_1 = value[0][0]
     Status_1 = value[0][1]
-    Pin_2 = value[1][0]
+na    Pin_2 = value[1][0]
     Status_2 = value[1][1]
 except:
     print ("Error: unable to fetch data")

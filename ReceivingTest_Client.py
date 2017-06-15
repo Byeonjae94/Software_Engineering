@@ -14,18 +14,19 @@ try:
     while True:
         Sock.connection()
         time.sleep(5)
-        rowCount = str(Sock.sendingMsg()).split("'")
-        rowCount = int(rowCount[1])
+        r = str(Sock.sendingMsg()).split("'")
+        print(r)
+        rowCount = int(r[1])
         print(rowCount)
-
-        if rowCount == "999":
-            sql = "UPDATE TestStatus SET Value = 1 WHERE Pin=1;"
+        
+        if rowCount == "999.0":
+            sql = "UPDATE TestStatus SET Status = 'On' WHERE Pin=1;"
             print(sql)
-            cursor.execute(sql)
+            cursorT.execute(sql)
             continue
 
-        sql = "UPDATE TestStatus SET Value = 0 WHERE Pin=1;"
-        cursor.execute(sql)
+        #sql = "UPDATE TestStatus SET Status = 'Off' WHERE Pin=1;"
+        #cursor.execute(sql)
 
         for i in range(0,rowCount):
             receiving = str(Sock.sendingMsg())
@@ -36,10 +37,12 @@ try:
             if li[3]=="False":
                 sql = "UPDATE TestTable SET Location = 'Moving' WHERE Pin = '%s';" % (li[0])
             else:
-                sql = "UPDATE TestTable SET Location = '%s' WHERE Pin = '%s';" % (li[1],li[0]-1)
+                sql = "UPDATE TestTable SET Location = '%s' WHERE Pin = '%s';" % (li[0],int(li[0])-1)
+
             print(sql)
             cursor.execute(sql)
 
+        print("While Finished")
         db.commit()
 
 except:

@@ -40,17 +40,17 @@ def numbertest(Pin):
 
 # Location Number
 def test1(Location):
-    if Location == 'Home':
+    if Location == 'School':
           return 1
-    elif Location == 'School':
+    elif Location == 'Playground':
           return 2
-    elif Location == 'Company':
+    elif Location == 'Home':
           return 3
     elif Location == 'Library':
           return 4
-    elif Location == 'Mart':
+    elif Location == 'Company':
           return 5
-    elif Location == 'Playground':
+    elif Location == 'Mart':
           return 6
     elif Location == 'Silver_Hall':
           return 7
@@ -62,17 +62,17 @@ def test1(Location):
 # Location Number
 def test2(Now_Locate):
     if Now_Locate == 1:
-          return 'Home'
-    elif Now_Locate == 2:
           return 'School'
+    elif Now_Locate == 2:
+          return 'Playground'
     elif Now_Locate == 3:
-          return 'Company'
+          return 'Home'
     elif Now_Locate == 4:
           return 'Library'
     elif Now_Locate == 5:
-          return 'Mart'
+          return 'Company'
     elif Now_Locate == 6:
-          return 'Playground'
+          return 'Mart'
     elif Now_Locate == 7:
           return 'Silver_Hall'
     elif Now_Locate == 8:

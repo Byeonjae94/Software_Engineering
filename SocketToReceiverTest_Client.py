@@ -20,6 +20,7 @@ def sendingMsg():
     request = bytes('Request','utf-8')
     s.send(request)
     data = s.recv(1024)
+    print("After recv")
     return data
 
 def disconnectingSoc():
